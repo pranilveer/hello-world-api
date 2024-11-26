@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World API</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Hello World API</h1>
+        <label for="language">Choose a language:</label>
+        <select id="language">
+            <option value="English">English</option>
+            <option value="French">French</option>
+            <option value="Hindi">Hindi</option>
+        </select>
+        <button onclick="getMessage()">Get Message</button>
+        <h2 id="result"></h2>
+    </div>
+
+    <script>
+        async function getMessage() {
+            const language = document.getElementById("language").value;
+            const result = document.getElementById("result");
+            try {
+                const response = await fetch(`http://localhost:5000/hello?language=${language}`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    result.textContent = data.msgText;
+                    result.className = "";
+                } else {
+                    result.textContent = data.error_message;
+                    result.className = "error";
+                }
+            } catch (error) {
+                result.textContent = "Error: Unable to fetch the message.";
+                result.className = "error";
+            }
+        }
+    </script>
+</body>
+</html>
