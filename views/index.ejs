@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World API</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: #fafafa;
+            transition: border-color 0.2s ease-in-out;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            font-weight: bold;
+            border: 1px solid #c8e6c9;
+            border-radius: 5px;
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Hello World API</h1>
+        <form action="/hello" method="get" onsubmit="return fetchMessage(event)">
+            <label for="language">Choose a language:</label>
+            <select id="language" name="language">
+                <option value="English">English</option>
+                <option value="French">French</option>
+                <option value="Hindi">Hindi</option>
+            </select>
+            <button type="submit">Get Message</button>
+        </form>
+        <h2 id="result"></h2>
+    </div>
+
+    <script>
+        async function fetchMessage(event) {
+            event.preventDefault();
+            const language = document.getElementById("language").value;
+            const response = await fetch(`/hello?language=${language}`);
+            const data = await response.json();
+
+            const resultElement = document.getElementById("result");
+            if (response.ok) {
+                resultElement.textContent = data.msgText;
+            } else {
+                resultElement.textContent = data.error_message;
+            }
+        }
+    </script>
+</body>
+
+</html>
